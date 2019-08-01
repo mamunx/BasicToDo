@@ -1,13 +1,15 @@
-package com.example.xyz.basictodo.view;
+package com.example.xyz.basictodo.view.activity;
 
 import android.os.Bundle;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.xyz.basictodo.R;
+import com.example.xyz.basictodo.view.adapter.NoteAdapter;
 import com.example.xyz.basictodo.viewmodel.MainViewModel;
 
 public class MainActivity extends AppCompatActivity implements LifecycleOwner {
@@ -21,8 +23,13 @@ public class MainActivity extends AppCompatActivity implements LifecycleOwner {
 
         mainViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
 
-        mainViewModel.getAllNotes().observe(this, notes -> {
-            //todo show data in view
-        });
+        RecyclerView recyclerView = findViewById(R.id.rvNotes);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setHasFixedSize(true);
+
+        NoteAdapter noteAdapter = new NoteAdapter();
+        recyclerView.setAdapter(noteAdapter);
+
+        mainViewModel.getAllNotes().observe(this, noteAdapter::setNoteList);
     }
 }
