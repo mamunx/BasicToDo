@@ -2,11 +2,16 @@ package com.example.xyz.basictodo.view.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -44,6 +49,19 @@ public class MainActivity extends AppCompatActivity implements LifecycleOwner {
         recyclerView.setAdapter(noteAdapter);
 
         mainViewModel.getAllNotes().observe(this, noteAdapter::setNoteList);
+
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                mainViewModel.delete(noteAdapter.getNoteAtPos(viewHolder.getAdapterPosition()));
+                Snackbar.make(fabAdd, "Note deleted", Snackbar.LENGTH_LONG).show();
+            }
+        }).attachToRecyclerView(recyclerView);
     }
 
     @Override
@@ -63,5 +81,22 @@ public class MainActivity extends AppCompatActivity implements LifecycleOwner {
             }
         } else
             Snackbar.make(fabAdd, "Note was not saved!", Snackbar.LENGTH_LONG).show();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.main_activity_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.delete_all_notes) {
+            mainViewModel.deleteAllNotes();
+            Snackbar.make(fabAdd, "All notes deleted!", Snackbar.LENGTH_LONG).show();
+            return true;
+        } else
+            return super.onOptionsItemSelected(item);
     }
 }
