@@ -1,11 +1,13 @@
 package com.example.xyz.basictodo.view.adapter;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.xyz.basictodo.R;
@@ -18,6 +20,11 @@ import java.util.List;
 public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder> {
 
     private List<Note> noteList = new ArrayList<>();
+    private Context context;
+
+    public NoteAdapter(Context context) {
+        this.context = context;
+    }
 
     @NonNull
     @Override
@@ -32,7 +39,12 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
         Note note = noteList.get(position);
         holder.tvTitle.setText(note.getTitle());
         holder.tvDescription.setText(note.getDescription());
-        holder.tvDate.setText(Utils.getFormattedTime(note.getCreated_at(), Utils.FORMAT_2));
+        holder.tvDate.setText(Utils.getFormattedTime(note.getDeadline(), Utils.FORMAT_2));
+
+        if (System.currentTimeMillis() > note.getDeadline())
+            holder.tvDate.setTextColor(ContextCompat.getColor(context, R.color.colorAccent));
+        else
+            holder.tvDate.setTextColor(ContextCompat.getColor(context, R.color.black));
     }
 
     @Override
@@ -49,7 +61,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
 
         private TextView tvTitle, tvDescription, tvDate;
 
-        public NoteViewHolder(@NonNull View itemView) {
+        NoteViewHolder(@NonNull View itemView) {
             super(itemView);
             tvTitle = itemView.findViewById(R.id.tvTitle);
             tvDescription = itemView.findViewById(R.id.tvDescription);

@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat;
 public class Utils {
 
     public static final String FORMAT_1 = "yyyy-MM-dd HH:mm:ss";
-    public static final String FORMAT_2 = "dd/MM/yyyy HH:mm A";
+    public static final String FORMAT_2 = "dd/MM/yyyy hh:mm a";
 
     /**
      * @return yyyy-MM-dd HH:mm:ss formate date as string

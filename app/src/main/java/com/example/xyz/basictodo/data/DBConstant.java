@@ -8,5 +8,5 @@ public interface DBConstant {
     String ID_COLUMN = "id";
     String TITLE_COLUMN = "title";
     String DESCRIPTION_COLUMN = "description";
-    String CREATED_AT_COLUMN = "created_at";
+    String DEADLINE_COLUMN = "deadline";
 }

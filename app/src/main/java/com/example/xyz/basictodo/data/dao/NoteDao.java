@@ -28,6 +28,6 @@ public interface NoteDao {
     void deleteAll();
 
     @Query("SELECT * FROM " + DBConstant.NOTE_TABLE +
-            " ORDER BY " + DBConstant.CREATED_AT_COLUMN + " DESC")
+            " ORDER BY " + DBConstant.DEADLINE_COLUMN + " DESC")
     LiveData<List<Note>> getAllNotes();
 }

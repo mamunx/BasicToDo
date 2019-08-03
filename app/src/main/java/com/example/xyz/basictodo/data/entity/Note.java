@@ -19,13 +19,13 @@ public class Note {
     @ColumnInfo(name = DBConstant.DESCRIPTION_COLUMN)
     private String description;
 
-    @ColumnInfo(name = DBConstant.CREATED_AT_COLUMN)
-    private long created_at;
+    @ColumnInfo(name = DBConstant.DEADLINE_COLUMN)
+    private long deadline;
 
-    public Note(String title, String description, long created_at) {
+    public Note(String title, String description, long deadline) {
         this.title = title;
         this.description = description;
-        this.created_at = created_at;
+        this.deadline = deadline;
     }
 
     public int getId() {
@@ -52,11 +52,11 @@ public class Note {
         this.description = description;
     }
 
-    public long getCreated_at() {
-        return created_at;
+    public long getDeadline() {
+        return deadline;
     }
 
-    public void setCreated_at(long created_at) {
-        this.created_at = created_at;
+    public void setDeadline(long deadline) {
+        this.deadline = deadline;
     }
 }
